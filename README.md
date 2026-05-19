@@ -1,4 +1,4 @@
-# Hourly-weather-Report-Automation-
+# Hourly-weather-Report-Automation-using N8n
 An automated weather reporting system that fetches real-time hourly weather data using APIs and sends scheduled weather updates automatically. This project provides temperature, humidity, wind speed, weather conditions, and forecast alerts through automation workflows
 🌦️ Hourly Weather Report Automation
 
