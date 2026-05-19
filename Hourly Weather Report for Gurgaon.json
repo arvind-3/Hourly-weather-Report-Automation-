@@ -1,0 +1,329 @@
+{
+  "name": "Hourly Weather Report for Gurgaon",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "id": "6de26a85-befc-462f-8e47-28405a656344",
+      "name": "Every Hour",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "cityName": "Gurgaon"
+      },
+      "id": "b7978311-f07e-4ac2-9955-84b43ffe7fca",
+      "name": "Get Gurgaon Weather",
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        464,
+        400
+      ],
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "y2r9KcRlI0xRpcNk",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "timestamp",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "2",
+              "name": "city",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "3",
+              "name": "temperature",
+              "value": "={{ $json.main.temp }}",
+              "type": "number"
+            },
+            {
+              "id": "4",
+              "name": "feels_like",
+              "value": "={{ $json.main.feels_like }}",
+              "type": "number"
+            },
+            {
+              "id": "5",
+              "name": "humidity",
+              "value": "={{ $json.main.humidity }}",
+              "type": "number"
+            },
+            {
+              "id": "6",
+              "name": "weather",
+              "value": "={{ $json.weather[0].description }}",
+              "type": "string"
+            },
+            {
+              "id": "7",
+              "name": "wind_speed",
+              "value": "={{ $json.wind.speed }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "61c3a39d-4ce2-43d4-b5c3-c3b861b200dc",
+      "name": "Format Weather Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        688,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1uOC8G4gGWjw0SSDWO9l5COd52Xy1HwoHgLC6YA7IvTY",
+          "mode": "list",
+          "cachedResultName": "wheather",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uOC8G4gGWjw0SSDWO9l5COd52Xy1HwoHgLC6YA7IvTY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1953299031,
+          "mode": "list",
+          "cachedResultName": "n8n-sheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uOC8G4gGWjw0SSDWO9l5COd52Xy1HwoHgLC6YA7IvTY/edit#gid=1953299031"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "city",
+              "displayName": "city",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "temperature",
+              "displayName": "temperature",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "feels_like",
+              "displayName": "feels_like",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "humidity",
+              "displayName": "humidity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "weather",
+              "displayName": "weather",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "wind_speed",
+              "displayName": "wind_speed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "76d1afb2-ae5e-4413-b5d7-2090f2b7caaf",
+      "name": "Add to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        912,
+        304
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "QcMxDsiecNIa4KyW",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1",
+              "name": "email",
+              "value": "=your-email@example.com",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "de806a53-e414-410f-a00f-c6a58bbc59d6",
+      "name": "Prepare Email",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "=Hourly Weather Report - Gurgaon - {{ $now.toFormat(\"h:mm a, MMM d\") }}",
+        "message": "=<h2>Weather Report for Gurgaon</h2>\n<p><strong>Time:</strong> {{ $(\"Format Weather Data\").item.json.timestamp }}</p>\n<p><strong>Temperature:</strong> {{ $(\"Format Weather Data\").item.json.temperature }}°C (Feels like {{ $(\"Format Weather Data\").item.json.feels_like }}°C)</p>\n<p><strong>Conditions:</strong> {{ $(\"Format Weather Data\").item.json.weather }}</p>\n<p><strong>Humidity:</strong> {{ $(\"Format Weather Data\").item.json.humidity }}%</p>\n<p><strong>Wind Speed:</strong> {{ $(\"Format Weather Data\").item.json.wind_speed }} m/s</p>",
+        "options": {}
+      },
+      "id": "2eb342d9-54ca-4635-9e95-a265ce063d44",
+      "name": "Send Weather Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1136,
+        496
+      ],
+      "webhookId": "2d94684a-94c4-407f-929d-f6f8022f10c2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "2AtIgEm4JKMZnws5",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Every Hour": {
+      "main": [
+        [
+          {
+            "node": "Get Gurgaon Weather",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Gurgaon Weather": {
+      "main": [
+        [
+          {
+            "node": "Format Weather Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Weather Data": {
+      "main": [
+        [
+          {
+            "node": "Add to Google Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Prepare Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Email": {
+      "main": [
+        [
+          {
+            "node": "Send Weather Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": true
+  },
+  "versionId": "82acfba8-bd11-465b-91b3-33e17d8e459c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dd5484506f0484fae3d07cc30850925192fc307c6d9faa3271dbd210efe92882"
+  },
+  "id": "F8PdiR2hhgpuW4Xs",
+  "tags": []
+}
